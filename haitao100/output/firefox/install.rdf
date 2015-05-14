@@ -1,0 +1,23 @@
+<?xml version="1.0" ?><RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+    <Description about="urn:mozilla:install-manifest">
+        <em:id>{13617339-7E4C-4C76-BF4C-A6C5582ABF91}</em:id>
+        <em:name>haitao</em:name>
+        <em:version>0.9.0</em:version>
+        <em:targetApplication>
+            <Description>
+                <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+                <em:minVersion>17.0</em:minVersion>
+                <em:maxVersion>36.*</em:maxVersion>
+            </Description>
+        </em:targetApplication>
+        <em:bootstrap>true</em:bootstrap>
+        <em:description>海淘100是国内领先的海淘购物助手软件，自动计算人民币到手价，展示海淘商品的价格曲线，自动关注热门商品并降价提醒，自动进行包裹跟踪，支持淘宝比价。是国内知名度最高，用户数量最多，用户口碑最好的海淘插件工具，帮助广大淘友简化海淘流程。</em:description>
+        <em:creator>Kango</em:creator>
+        <em:homepageURL>http://www.haitao100.cn/</em:homepageURL>
+        <em:iconURL>chrome://kango-13617339-7e4c-4c76-bf4c-a6c5582abf91/content/icons/icon32.png</em:iconURL>
+        
+        
+        
+        <em:type>2</em:type>
+    </Description>
+</RDF>

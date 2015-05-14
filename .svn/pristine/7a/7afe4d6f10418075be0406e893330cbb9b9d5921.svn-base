@@ -1,0 +1,124 @@
+// ==UserScript==
+// @name diapers Script
+// @namespace diapers
+// @include ^http://www.diapers.com/
+// @all-frames true
+// @require jquery.js
+// @require config.js
+// @require cat.js
+// @require area.js
+// @require plugin_content.js
+// ==/UserScript==
+
+
+var plugin_content = new PluginContent();
+var _this = plugin_content.get_this();
+
+plugin_content.site_id = 12;
+plugin_content.site_name = 'diapers';
+plugin_content.direct_mail_china = true;
+
+//Ò³Ãæ³õÊ¼»¯
+plugin_content.content_init = function(){
+	//¼ÓÔØ²å¼þÄÚÈÝ½
+	_this.append_plugin();
+}
+
+//»ñÈ¡ÉÌÆ·Ãû³Æ
+
+plugin_content.get_name = function(){
+	var goods_name = '';
+	var itemTitle = $('.productTitle h1');
+	if(itemTitle.length>0){
+		itemTitle.each(function(){
+			goods_name += $(this).text();
+		});
+	}else{
+		goods_name = '';
+	}
+	return goods_name;
+}
+
+//»ñÈ¡ÉÌÆ·Í¼Æ¬
+plugin_content.get_img = function(){
+	var icImg = $('#pdpMainImageImg');
+	if(icImg.length>0){
+		var goods_img = icImg.attr('src');
+	}else{
+		var goods_img = '';
+	}
+	return goods_img;
+}
+
+//»ñÈ¡ÉÌÆ·¼Û¸ñ
+
+plugin_content.get_price = function(){
+	var prodPrice = '$0.00';
+	var prcIsum = $('#priceDivClass .singlePrice');
+	if (prcIsum.length>0){
+		prodPrice = prcIsum.text();
+	}
+	prodPrice = $.trim(prodPrice);
+	prodPrice = prodPrice.replace(/,/g,'');
+	var match_arr = prodPrice.match(/\$\s?(\d+(:?\.\d+)?)/);
+	
+	if(match_arr && typeof(match_arr[1]!='undefined')){
+		prodWeight = match_arr[1]*_this.exchange_rate;
+	}
+	return prodWeight;
+}
+
+
+
+//»ñÈ¡ÉÌÆ·ÖØÁ¿
+plugin_content.get_weight = function(){
+	var prodWeight1 = $('.pIdDesContent li:contains("Product Weight")');
+	var prodWeight2 = $('.pIdDesContent p:contains("Product Weight")');
+	var prodWeight3 = $('.pIdDesContent p:contains("Product Dimensions")');
+	var prodWeight4 = $('.skuLevelDesc p:contains("Product Dimensions")');
+	var prodWeight5 = $('.pIdDesContent p:contains("Weight")').next();
+	var prodWeight5 = $('.pIdDesContent b:contains("Weight")').next();
+	var prodWeight6 = $('.a-list-item');
+	
+	
+	var weightText = '0.01 pound';//Ä¬ÈÏ0.01°õ
+	if (prodWeight1.length>0){
+		weightText = prodWeight1.contents().filter(function(){
+			return this.nodeType === 3; //Node.TEXT_NODE
+		}).text();
+		
+	}else if(prodWeight2.length>0){
+		weightText = prodWeight2.contents().filter(function(){
+			return this.nodeType === 3; //Node.TEXT_NODE
+		}).text();
+	}else if(prodWeight3.length>0){
+		weightText = prodWeight3.contents().filter(function(){
+			return this.nodeType === 3; //Node.TEXT_NODE
+		}).text();
+		
+	}else if(prodWeight4.length>0){
+		weightText = prodWeight4.text();
+	}else if(prodWeight5.length>0){
+		weightText = prodWeight5.text();
+	}else if(prodWeight6.length>0){
+		weightText = prodWeight6.text();
+	}
+	var match_arr = weightText.match(/(\d+(\.\d+)?)\s?pounds/i);
+	if(match_arr && typeof(match_arr[1])!="undefined"){
+		var prodWeight = match_arr[1];
+	}else{
+		match_arr = weightText.match(/(\d+(\.\d+)?)\s?lbs/i);
+		if(match_arr && typeof(match_arr[1])!="undefined"){
+			var prodWeight = match_arr[1];
+		}else{
+			match_arr = weightText.match(/(\d+(\.\d+)?)\s?(:?ounce|oz)/i);
+			if(match_arr && typeof(match_arr[1])!="undefined"){
+				var prodWeight = match_arr[1]/16;
+			}else{
+				var prodWeight = 0.01;
+			}
+		}
+	}
+	return prodWeight;
+}
+plugin_content.init();
